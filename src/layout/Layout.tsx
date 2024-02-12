@@ -1,6 +1,7 @@
-import DataTable from "../components/DataTable";
+import DataTable from "../components/Dta";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faIdCard, faGauge } from "@fortawesome/free-solid-svg-icons";
+import Table from "../components/Table";
 
 const Layout = (): JSX.Element => {
   return (
@@ -24,8 +25,8 @@ const Layout = (): JSX.Element => {
             Licenses
           </a>
         </nav>
-        <section className="row-start-2 row-end-5 col-start-2 col-end-7 sticky top-20">
-          <DataTable />
+        <section className="row-start-2 row-end-5 col-start-3 col-end-7 sticky top-20">
+          <Table />
         </section>
         <div className="row-start-5 row-end-6 col-start-2 col-end-7 h-8">
           <footer className="flex justify-center content-end">
