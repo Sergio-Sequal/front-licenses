@@ -1,4 +1,4 @@
-import {
+/*import {
   flexRender,
   getCoreRowModel,
   useReactTable,
@@ -74,4 +74,4 @@ const DataTable = (): JSX.Element => {
   );
 };
 
-export default DataTable;
+export default DataTable;*/
