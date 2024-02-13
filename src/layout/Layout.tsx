@@ -1,42 +1,47 @@
-import DataTable from "../components/Dta";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faIdCard, faGauge } from "@fortawesome/free-solid-svg-icons";
-import Table from "../components/Table";
+import React, { useState } from 'react';
+import { Button } from 'primereact/button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faIdCard, faGauge } from '@fortawesome/free-solid-svg-icons';
+import DataTable from '../components/Dta';
+import Table from '../components/Table';
+import ModalFormulario from '../components/ModalFormulario';
 
 const Layout = (): JSX.Element => {
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleOpenModal = () => {
+    setModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  };
+
   return (
-    <>
-      <div className="grid min-h-screen min-w-full grid-cols-6 grid-rows-5">
-        <header className="col-start-1 col-end-7 text-3xl font-bold bg-white h-16 sticky top-0"></header>
-        <nav className="row-start-1 row-end-6 bg-blue-600 flex flex-col items-left fixed h-full w-52 z-50">
-          <img src="./src/assets/images/logo.png" alt="" className="h-20 m-4" />
-          <a href="#" className="py-8 ml-6">
-            <FontAwesomeIcon
-              icon={faGauge}
-              className="text-xl text-white mr-2"
-            />
-            Dashboard
-          </a>
-          <a href="#" className="ml-6">
-            <FontAwesomeIcon
-              icon={faIdCard}
-              className="text-xl text-white mr-2"
-            />
-            Licenses
-          </a>
-        </nav>
-        <section className="row-start-2 row-end-5 col-start-3 col-end-7 sticky top-20">
-          <Table />
-        </section>
-        <div className="row-start-5 row-end-6 col-start-2 col-end-7 h-8">
-          <footer className="flex justify-center content-end">
-            <p className="text-black mt-32 text-xs">
-              Copyright &copy; 2024 SEQUAL S.A.S
-            </p>
-          </footer>
+    <div className="grid min-h-screen min-w-full grid-cols-6 grid-rows-5">
+      <header className="col-span-6 text-3xl font-bold bg-white h-16 sticky top-0"></header>
+      <nav className="row-span-5 bg-blue-600 flex flex-col items-left fixed h-full w-52 z-50">
+        <img src="./src/assets/images/logo.png" alt="" className="h-20 m-4" />
+        <a href="#" className="py-4 pl-6 text-white hover:bg-blue-800">
+          <FontAwesomeIcon icon={faGauge} className="text-xl mr-2" />
+          Dashboard
+        </a>
+        <a href="#" className="py-4 pl-6 text-white hover:bg-blue-800">
+          <FontAwesomeIcon icon={faIdCard} className="text-xl mr-2" />
+          Licenses
+        </a>
+      </nav>
+      <section className="col-start-2 col-span-5 row-span-5 p-6 overflow-x-auto">
+        <Button label="Abrir Formulario" icon="pi pi-plus" onClick={handleOpenModal} />
+        <ModalFormulario visible={modalVisible} onHide={handleCloseModal} />
+        <Table />
+      </section>
+      <footer className="col-span-6 h-8">
+        <div className="flex justify-center items-center h-full text-black text-xs">
+          Copyright &copy; 2024 SEQUAL S.A.S
         </div>
-      </div>
-    </>
+      </footer>
+    </div>
   );
 };
 

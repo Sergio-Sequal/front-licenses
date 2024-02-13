@@ -1,8 +1,9 @@
+import { useState, useEffect } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { useState, useEffect } from "react";
+import { InputText } from "primereact/inputtext";
+import { Dropdown } from "primereact/dropdown";
 import axios from "axios";
-import { defaultData } from "../utils/defaultData";
 
 // Definir el tipo de datos para los objetos recibidos de la API
 interface Licenses {
@@ -14,35 +15,72 @@ interface Licenses {
 
 const Table = (): JSX.Element => {
   const [data, setData] = useState<Licenses[]>([]);
+  const [globalFilter, setGlobalFilter] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/licenses');
-        setData(Object.values(response.data.data));        
-        
+        const response = await axios.get("http://localhost:8080/licenses");
+        setData(Object.values(response.data.data));
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, []);  
+  }, []);
+
+  const statusFilter = (
+    <Dropdown
+      value={null}
+      onChange={(e) => {
+        setGlobalFilter("");
+        setData(
+          data.filter((item) =>
+            e.value ? item.status === e.value : true
+          )
+        );
+      }}
+      placeholder="Select a Status"
+    />
+  );
+
+  const header = (
+    <div className="table-header">
+      <h5 className="p-m-0">Manage Licenses</h5>
+      <span className="p-input-icon-left">
+        <i className="pi pi-search" />
+        <InputText
+          type="search"
+          onInput={(e) => setGlobalFilter((e.target as HTMLInputElement).value)}
+          placeholder="Search..."
+        />
+      </span>
+    </div>
+  );
 
   return (
-    <DataTable
-      value={data}
-      removableSort
-      paginator
-      rows={5}
-      rowsPerPageOptions={[5, 10, 25, 50]}
-      tableStyle={{ minWidth: "40rem" }}
-    >
-      <Column field="customerName" header="Name"></Column>
-      <Column field="initialDate" header="Initial Date"></Column>
-      <Column field="age" header="Age"></Column>
-      <Column field="status" header="Status"></Column>
-    </DataTable>
+    <div className="datatable">
+      <DataTable
+        value={data}
+        removableSort
+        paginator
+        rows={5}
+        rowsPerPageOptions={[5, 10, 25, 50]}
+        tableStyle={{
+          minWidth: "40rem",
+          maxHeight: "400px",
+          overflowY: "auto",
+        }}
+        globalFilter={globalFilter}
+        header={header}
+      >
+        <Column field="customerName" header="Name" sortable filter />
+        <Column field="initialDate" header="Initial Date" sortable filter />
+        <Column field="expirationDate" header="Expiration Date" sortable filter />
+        <Column field="status" header="Status" sortable filter />
+      </DataTable>
+    </div>
   );
 };
 
