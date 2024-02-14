@@ -63,6 +63,9 @@ const Formulario: React.FC<FormularioProps> = ({ onHide }) => {
       } else {
         console.error('Error al guardar los datos');
       }
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
     } catch (error) {
       console.error('Error en la conexión:', error);
     }
@@ -84,8 +87,10 @@ const Formulario: React.FC<FormularioProps> = ({ onHide }) => {
           required
           value={formData.customerMail}
           onChange={handleInputChange}
-          className="border-2 border-blue-500 focus:outline-none focus:border-blue-700 px-4 py-2 rounded-md w-full"
+          className={`form-input border-2 ${formData.customerMail === '' ? 'border-red-500' : 'border-blue-500'} focus:outline-none focus:border-blue-700 px-4 py-2 rounded-md w-full`}
         />
+         {formData.customerMail === '' && <small className="text-red-500">Este campo es obligatorio</small>}
+
       </label>
     </div>
     <div className="w-full md:w-1/2 mb-4 md:mb-0 px-2">
@@ -98,8 +103,10 @@ const Formulario: React.FC<FormularioProps> = ({ onHide }) => {
           required
           value={formData.customerName}
           onChange={handleInputChange}
-          className="form-input  border-2 border-blue-500 focus:outline-none focus:border-blue-700 px-4 py-2 rounded-md w-full"
+          className={`form-input border-2 ${formData.customerName === '' ? 'border-red-500' : 'border-blue-500'} focus:outline-none focus:border-blue-700 px-4 py-2 rounded-md w-full`}
         />
+         {formData.customerName === '' && <small className="text-red-500">Este campo es obligatorio</small>}
+
       </label>
     </div>
     <div className="w-full md:w-1/2 mb-4 md:mb-0 px-2">
@@ -111,8 +118,10 @@ const Formulario: React.FC<FormularioProps> = ({ onHide }) => {
           name="initialDate"
           value={formData.initialDate}
           onChange={handleInputChange}
-          className="form-input  border-2 border-blue-500 focus:outline-none focus:border-blue-700 px-4 py-2 rounded-md w-full"
+          className={`form-input border-2 ${formData.initialDate === '' ? 'border-red-500' : 'border-blue-500'} focus:outline-none focus:border-blue-700 px-4 py-2 rounded-md w-full`}
         />
+         {formData.initialDate === '' && <small className="text-red-500">Este campo es obligatorio</small>}
+
       </label>
     </div>
     <div className="w-full md:w-1/2 mb-4 md:mb-0 px-2">
@@ -124,8 +133,10 @@ const Formulario: React.FC<FormularioProps> = ({ onHide }) => {
           name="expirationDate"
           value={formData.expirationDate}
           onChange={handleInputChange}
-          className="form-input  border-2 border-blue-500 focus:outline-none focus:border-blue-700 px-4 py-2 rounded-md w-full"
+          className={`form-input border-2 ${formData.expirationDate === '' ? 'border-red-500' : 'border-blue-500'} focus:outline-none focus:border-blue-700 px-4 py-2 rounded-md w-full`}
         />
+         {formData.expirationDate === '' && <small className="text-red-500">Este campo es obligatorio</small>}
+
       </label>
     </div>
     <div className="w-full md:w-1/2 mb-4 md:mb-0 px-2">
@@ -137,8 +148,9 @@ const Formulario: React.FC<FormularioProps> = ({ onHide }) => {
           name="purchaseDate"
           value={formData.purchaseDate}
           onChange={handleInputChange}
-          className="form-input  border-2 border-blue-500 focus:outline-none focus:border-blue-700 px-4 py-2 rounded-md w-full"
+          className={`form-input border-2 ${formData.purchaseDate === '' ? 'border-red-500' : 'border-blue-500'} focus:outline-none focus:border-blue-700 px-4 py-2 rounded-md w-full`}
         />
+         {formData.purchaseDate === '' && <small className="text-red-500">Este campo es obligatorio</small>}
       </label>
     </div>
     <div className="w-full md:w-1/2 mb-4 md:mb-0 px-2">
@@ -164,7 +176,7 @@ const Formulario: React.FC<FormularioProps> = ({ onHide }) => {
           name="licenseType"
           value={formData.licenseType}
           onChange={handleInputChange}
-          className="form-select border-2 border-blue-500 focus:outline-none focus:border-blue-700 px-4 py-2 rounded-md w-full"
+          className={`form-input border-2 ${formData.licenseType === '' ? 'border-red-500' : 'border-blue-500'} focus:outline-none focus:border-blue-700 px-4 py-2 rounded-md w-full`}
         >
           <option value="">Selecciona un tipo de licencia</option>
           <option value="standard">Standard</option>
@@ -172,6 +184,7 @@ const Formulario: React.FC<FormularioProps> = ({ onHide }) => {
           <option value="enterprise">Enterprise</option>
           {/* Agrega otras opciones según sea necesario */}
         </select>
+        {formData.licenseType === '' && <small className="text-red-500">Este campo es obligatorio</small>}
       </label>
     </div>
     <div className="w-full flex justify-center px-2">
