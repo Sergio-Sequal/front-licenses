@@ -1,13 +1,29 @@
 // Formulario.tsx
 
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+interface Licenses {
 
+  customerMail: '',
+    customerName: '',
+    initialDate: '',
+    expirationDate: '',
+    purchaseDate: '',
+    usersNumber: '',
+    licenseType: '',
+    _id: '',
+    id: '',
+ 
+}
 interface FormularioProps {
   onHide: () => void;
+  selectedLicense: Licenses | null;
 }
 
-const Formulario: React.FC<FormularioProps> = ({ onHide }) => {
+const Formulario: React.FC<FormularioProps> = ({ onHide, selectedLicense }) => {
   const [formData, setFormData] = useState({
+    _id: '',
+    id: '',
     customerMail: '',
     customerName: '',
     initialDate: '',
@@ -16,6 +32,39 @@ const Formulario: React.FC<FormularioProps> = ({ onHide }) => {
     usersNumber: '',
     licenseType: '',
   });
+  
+  const editMode = !!selectedLicense;
+  
+  useEffect(() => {
+    if (selectedLicense) {
+      // Si hay una licencia seleccionada, inicializa el estado con sus datos
+      
+      setFormData({
+        _id: selectedLicense._id || '',
+        customerMail: selectedLicense.customerMail,
+        customerName: selectedLicense.customerName,
+        initialDate: selectedLicense.initialDate,
+        expirationDate: selectedLicense.expirationDate,
+        purchaseDate: selectedLicense.purchaseDate,
+        usersNumber: selectedLicense.usersNumber.toString(), // Convertir a cadena si es numérico
+        licenseType: selectedLicense.licenseType,
+        id: selectedLicense._id || ''
+      });
+    } else {
+      // Si no hay una licencia seleccionada, reinicia el estado
+      setFormData({
+        _id: '',
+        id: '',
+        customerMail: '',
+        customerName: '',
+        initialDate: '',
+        expirationDate: '',
+        purchaseDate: '',
+        usersNumber: '',
+        licenseType: '',
+      });
+    }
+  }, [selectedLicense]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     
@@ -23,7 +72,7 @@ const Formulario: React.FC<FormularioProps> = ({ onHide }) => {
 
     // Realizar la conversión si el campo es "usersNumber"
     const parsedValue = name === 'usersNumber' ? parseInt(value, 10) : value;
-  
+
     setFormData((prevData) => ({
       ...prevData,
       [name]: parsedValue,
@@ -32,48 +81,51 @@ const Formulario: React.FC<FormularioProps> = ({ onHide }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Verificar si alguno de los campos está vacío
-    const isEmptyField = Object.values(formData).some((value) => {
-      if (typeof value === 'number') {
-        return value === null; // Considera null como un valor vacío para campos numéricos
-      } else {
-        return value.trim() === '';
-      }
-    });
-  
-    if (isEmptyField) {
-      console.error('Por favor, completa todos los campos antes de guardar.');
-      return; // Evitar el envío del formulario si hay campos vacíos
-    }
-    console.log(formData);
-    
-  
     try {
-      const response = await fetch('http://localhost:8080/licenses', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-  
-      if (response.ok) {
-        console.log('Datos guardados exitosamente');
+      if (editMode && selectedLicense) {
+        let formDataConvert = {
+          id: formData.id,
+          customerMail: formData.customerMail,
+          customerName: formData.customerName,
+          initialDate: formData.initialDate,
+          expirationDate: formData.expirationDate,
+          purchaseDate: formData.purchaseDate,
+          usersNumber: formData.usersNumber,
+          licenseType: formData.licenseType,
+        }
+        console.log(formDataConvert);
+        
+        const response = await axios.post('https://api-licences-java.onrender.com/licenses/update', formDataConvert, {
+
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.status === 200) {
+          console.log('Datos actualizados exitosamente');
+        } else {
+          console.error('Error al actualizar los datos');
+        }
       } else {
-        console.error('Error al guardar los datos');
+        const response = await axios.post('https://api-licences-java.onrender.com/licenses', formData, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.status === 200) {
+          console.log('Datos guardados exitosamente');
+        } else {
+          console.error('Error al guardar los datos');
+        }
       }
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
     } catch (error) {
       console.error('Error en la conexión:', error);
     }
-  
-    // Después de enviar los datos, cierra el modal
+
     onHide();
   };
-  console.log(formData.usersNumber);
   
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-8 flex flex-wrap">
@@ -173,15 +225,15 @@ const Formulario: React.FC<FormularioProps> = ({ onHide }) => {
         Tipo de Licencia:
         <select
           required
+          key={'defaulEdition'}
           name="licenseType"
           value={formData.licenseType}
           onChange={handleInputChange}
           className={`form-input border-2 ${formData.licenseType === '' ? 'border-red-500' : 'border-blue-500'} focus:outline-none focus:border-blue-700 px-4 py-2 rounded-md w-full`}
         >
           <option value="">Selecciona un tipo de licencia</option>
-          <option value="standard">Standard</option>
-          <option value="premium">Premium</option>
-          <option value="enterprise">Enterprise</option>
+          <option value="trial">Trial</option>
+          <option value="standar">Standar</option>
           {/* Agrega otras opciones según sea necesario */}
         </select>
         {formData.licenseType === '' && <small className="text-red-500">Este campo es obligatorio</small>}

@@ -2,20 +2,42 @@ import { useState, useEffect } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
-import { Dropdown } from "primereact/dropdown";
+import { Button } from 'primereact/button';
+import ModalFormulario from "./ModalFormulario";
 import axios from "axios";
 
 // Definir el tipo de datos para los objetos recibidos de la API
 interface Licenses {
-  customerName: string;
-  initialDate: string;
-  expirationDate: string;
-  status: boolean;
+    customerMail: '',
+    customerName: '',
+    initialDate: '',
+    expirationDate: '',
+    purchaseDate: '',
+    usersNumber: '',
+    licenseType: '',
+    _id: '',
+    id: '',
+
 }
 
 const Table = (): JSX.Element => {
   const [data, setData] = useState<Licenses[]>([]);
   const [globalFilter, setGlobalFilter] = useState("");
+  const [selectedLicense, setSelectedLicense] = useState<Licenses | null>(null);
+  const [modalVisible, setModalVisible] = useState(false)
+
+  const editTemplate = (rowData: Licenses) => (
+    <Button
+      icon="pi pi-pencil"
+      className="p-button-warning"
+      onClick={() => editLicense(rowData)}
+    />
+  );
+
+  const editLicense = (rowData: Licenses) => {
+    setSelectedLicense(rowData);
+    setModalVisible(true);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,7 +80,7 @@ const Table = (): JSX.Element => {
       </span>
     </div>
   );
-
+    
   return (
     <div className="datatable">
       <DataTable
@@ -87,7 +109,16 @@ const Table = (): JSX.Element => {
         />
         <Column field="status" header="Status" sortable filter />
         <Column exportable={false} style={{ minWidth: '12rem' }}></Column>
+        <Column body={editTemplate} style={{ textAlign: 'center', width: '8em' }} />
       </DataTable>
+      <ModalFormulario
+        visible={modalVisible}
+        onHide={() => {
+          setModalVisible(false);
+          setSelectedLicense(null);
+        }}
+        selectedLicense={selectedLicense}
+      />
     </div>
   );
 };
