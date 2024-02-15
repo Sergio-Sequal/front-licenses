@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
-import { Dropdown } from "primereact/dropdown";
 import axios from "axios";
 
 // Definir el tipo de datos para los objetos recibidos de la API
@@ -32,18 +31,6 @@ const Table = (): JSX.Element => {
     fetchData();
   }, []);
 
-  // const statusFilter = (
-  //   <Dropdown
-  //     value={null}
-  //     onChange={(e) => {
-  //       setGlobalFilter("");
-  //       setData(
-  //         data.filter((item) => (e.value ? item.status === e.value : true))
-  //       );
-  //     }}
-  //     placeholder="Select a Status"
-  //   />
-  // );
 
   const header = (
     <div className="table-header">
