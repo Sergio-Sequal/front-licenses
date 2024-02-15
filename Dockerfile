@@ -1,5 +1,5 @@
 # Usamos una imagen base que incluya Node.js
-FROM node:20
+FROM node:20.11.0
 
 # Establecemos el directorio de trabajo dentro del contenedor
 WORKDIR /app
@@ -17,4 +17,4 @@ RUN npm run build
 EXPOSE 5173
 
 # Comando para iniciar la aplicación de React
-CMD ["npm", "start"]
+CMD ["npm", "run","dev"]
