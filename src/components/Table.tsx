@@ -20,7 +20,9 @@ const Table = (): JSX.Element => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/licenses");
+        const response = await axios.get(
+          "https://api-licences-java.onrender.com/licenses"
+        );
         setData(Object.values(response.data.data));
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -36,9 +38,7 @@ const Table = (): JSX.Element => {
       onChange={(e) => {
         setGlobalFilter("");
         setData(
-          data.filter((item) =>
-            e.value ? item.status === e.value : true
-          )
+          data.filter((item) => (e.value ? item.status === e.value : true))
         );
       }}
       placeholder="Select a Status"
@@ -77,7 +77,12 @@ const Table = (): JSX.Element => {
       >
         <Column field="customerName" header="Name" sortable filter />
         <Column field="initialDate" header="Initial Date" sortable filter />
-        <Column field="expirationDate" header="Expiration Date" sortable filter />
+        <Column
+          field="expirationDate"
+          header="Expiration Date"
+          sortable
+          filter
+        />
         <Column field="status" header="Status" sortable filter />
       </DataTable>
     </div>

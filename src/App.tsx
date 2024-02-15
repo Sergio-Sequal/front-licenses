@@ -1,5 +1,7 @@
 import { useState } from "react";
 import Layout from "./layout/Layout";
+import Loader from "./components/Loader";
+
 
 const mockTodos = [
   {
@@ -28,7 +30,10 @@ const App = (): JSX.Element => {
   };
 
   return (
-    <div><Layout/></div>
+    <div>
+      <Loader/>
+      <Layout/>      
+    </div>
     // <div className="todoapp">
     //   <Todos
     //   onRemoveTodo={handleRemove}

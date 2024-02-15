@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Button } from 'primereact/button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faIdCard, faGauge } from '@fortawesome/free-solid-svg-icons';
-import DataTable from '../components/Dta';
-import Table from '../components/Table';
-import ModalFormulario from '../components/ModalFormulario';
+import { useState } from "react";
+import { Button } from "primereact/button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faIdCard, faGauge } from "@fortawesome/free-solid-svg-icons";
+import Table from "../components/Table";
+import ModalFormulario from "../components/ModalFormulario";
+import Loader from "../components/Loader";
 
 const Layout = (): JSX.Element => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -20,7 +20,7 @@ const Layout = (): JSX.Element => {
   return (
     <div className="grid min-h-screen min-w-full grid-cols-6 grid-rows-5">
       <header className="col-span-6 text-3xl font-bold bg-white h-16 sticky top-0"></header>
-      <nav className="row-span-5 bg-blue-600 flex flex-col items-left fixed h-full w-52 z-50">
+      <nav className="row-span-5 bg-blue-600 flex flex-col items-left fixed h-full w-52 z-40">
         <img src="./src/assets/images/logo.png" alt="" className="h-20 m-4" />
         <a href="#" className="py-4 pl-6 text-white hover:bg-blue-800">
           <FontAwesomeIcon icon={faGauge} className="text-xl mr-2" />
@@ -32,7 +32,11 @@ const Layout = (): JSX.Element => {
         </a>
       </nav>
       <section className="col-start-2 col-span-5 row-span-5 p-6 overflow-x-auto">
-        <Button label="Abrir Formulario" icon="pi pi-plus" onClick={handleOpenModal} />
+        <Button
+          label="Abrir Formulario"
+          icon="pi pi-plus"
+          onClick={handleOpenModal}
+        />
         <ModalFormulario visible={modalVisible} onHide={handleCloseModal} />
         <Table />
       </section>
