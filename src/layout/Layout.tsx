@@ -1,10 +1,11 @@
+
 import { useState } from "react";
 import { Button } from "primereact/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faIdCard, faGauge } from "@fortawesome/free-solid-svg-icons";
 import Table from "../components/Table";
 import ModalFormulario from "../components/ModalFormulario";
-import Loader from "../components/Loader";
+
 
 const Layout = (): JSX.Element => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -31,12 +32,10 @@ const Layout = (): JSX.Element => {
           Licenses
         </a>
       </nav>
-      <section className="col-start-2 col-span-5 row-span-5 p-6 overflow-x-auto">
-        <Button
-          label="Abrir Formulario"
-          icon="pi pi-plus"
-          onClick={handleOpenModal}
-        />
+      <section className="col-start-2 col-span-5 row-span-5 p-6 overflow-x-auto flex-col justify-end">
+      <div className="flex justify-end">
+        <Button label="Abrir Formulario"  onClick={handleOpenModal} className='mb-5' icon="pi pi-plus-circle" />
+      </div>
         <ModalFormulario visible={modalVisible} onHide={handleCloseModal} />
         <Table />
       </section>
