@@ -17,9 +17,9 @@ const Layout = (): JSX.Element => {
   };
 
   return (
-    <div className="grid min-h-screen min-w-full grid-cols-6 grid-rows-none">
+    <div className="grid grid-cols-6 grid-rows-none z-50">
       <header className="col-span-6 text-3xl font-bold bg-white h-16 sticky top-0"></header>
-      <nav className="row-span-5 bg-blue-600 flex flex-col items-left fixed h-full w-52 z-40">
+      <nav className="row-span-5 bg-blue-600 flex flex-col items-left fixed h-full w-52 ">
         <img src="./src/assets/images/logo.png" alt="" className="h-20 m-4" />
         <a href="#" className="py-4 pl-6 text-white hover:bg-blue-800">
           <FontAwesomeIcon icon={faGauge} className="text-xl mr-2" />

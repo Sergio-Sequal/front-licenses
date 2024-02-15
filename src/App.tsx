@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import Layout from "./layout/Layout";
 import Loader from "./components/Loader";
 
@@ -12,6 +12,7 @@ const App = (): JSX.Element => {
       <Loader isActive={false}/>
       <Layout/>      
     </div>
+
   );
 };
 

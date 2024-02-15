@@ -6,7 +6,7 @@ const Loader: React.FC<Props> = ({ isActive }) => {
   return (
     <>
       {isActive ? (
-        <div className="flex items-center justify-center absolute left-0 top-0 right-0 bottom-0 bg-black opacity-70 z-50 overflow-hidden">
+        <div className="flex items-center justify-center absolute left-0 top-0 right-0 bottom-0 bg-black opacity-70 z-40 overflow-hidden">
           <span
             className="w-12 h-12 
                         rounded-full 
@@ -39,7 +39,7 @@ const Loader: React.FC<Props> = ({ isActive }) => {
           ></span>
         </div>
       ) : (
-        <div className="invisible flex items-center justify-center absolute left-0 top-0 right-0 bottom-0 bg-black opacity-70 z-50 overflow-hidden">
+        <div className="invisible flex items-center justify-center absolute left-0 top-0 right-0 bottom-0 bg-black opacity-70 z-40 overflow-hidden">
           <span
             className="w-12 h-12 
                         rounded-full 

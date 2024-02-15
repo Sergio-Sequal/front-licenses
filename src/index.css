@@ -13,6 +13,11 @@ html{
     background-color: #ebeffa;
 }
 
+body{
+  width: 100%;
+  height: 600px;
+}
+
 .loader {
   width: 48px;
   height: 48px;
