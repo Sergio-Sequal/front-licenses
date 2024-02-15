@@ -32,18 +32,18 @@ const Table = (): JSX.Element => {
     fetchData();
   }, []);
 
-  const statusFilter = (
-    <Dropdown
-      value={null}
-      onChange={(e) => {
-        setGlobalFilter("");
-        setData(
-          data.filter((item) => (e.value ? item.status === e.value : true))
-        );
-      }}
-      placeholder="Select a Status"
-    />
-  );
+  // const statusFilter = (
+  //   <Dropdown
+  //     value={null}
+  //     onChange={(e) => {
+  //       setGlobalFilter("");
+  //       setData(
+  //         data.filter((item) => (e.value ? item.status === e.value : true))
+  //       );
+  //     }}
+  //     placeholder="Select a Status"
+  //   />
+  // );
 
   const header = (
     <div className="table-header">
@@ -66,7 +66,7 @@ const Table = (): JSX.Element => {
         removableSort
         paginator
         rows={5}
-        rowsPerPageOptions={[5, 10, 25, 50]}
+        rowsPerPageOptions={[5, 10]}
         tableStyle={{
           minWidth: "40rem",
           maxHeight: "400px",
@@ -74,6 +74,8 @@ const Table = (): JSX.Element => {
         }}
         globalFilter={globalFilter}
         header={header}
+        editMode="row" 
+        dataKey="id"
       >
         <Column field="customerName" header="Name" sortable filter />
         <Column field="initialDate" header="Initial Date" sortable filter />
@@ -84,6 +86,7 @@ const Table = (): JSX.Element => {
           filter
         />
         <Column field="status" header="Status" sortable filter />
+        <Column exportable={false} style={{ minWidth: '12rem' }}></Column>
       </DataTable>
     </div>
   );

@@ -10,12 +10,12 @@ export const Todos: React.FC<Props> = ({ todos, onRemoveTodo }) => {
   return (
     <ul className="todo-list">
       {todos.map((todo) => (
-        <li key={todo.id} className={`${todo.completed ? "completed" : ""}`}>
+        <li key={todo.id} className={`${todo.isActive ? "completed" : ""}`}>
           <Todo
             key={todo.id}
             id={todo.id}
             title={todo.title}
-            completed={todo.completed}
+            isActive={todo.isActive}
             onRemoveTodo={onRemoveTodo}
           />
         </li>

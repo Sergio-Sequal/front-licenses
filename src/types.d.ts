@@ -3,7 +3,7 @@
 export interface Todo {
     id: string
     title: string
-    completed: boolean
+    isActive: boolean
 }
 
 export type ListOfTodos = Todo[]
