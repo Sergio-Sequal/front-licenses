@@ -23,3 +23,11 @@
     font-weight: 600;
     color: #0a5d52;
   }
+
+  /* RENUEW */
+  .container_renuew{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    
+  }

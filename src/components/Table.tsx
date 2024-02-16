@@ -5,6 +5,7 @@ import { InputText } from "primereact/inputtext";
 import { Button } from 'primereact/button';
 import ModalFormulario from "./ModalFormulario";
 import ModalDetails from "./ModalDetails";
+import RenewModal from './RenewModal'; // Importar el componente RenewModal
 import { ToggleButton } from 'primereact/togglebutton';
 import axios from "axios";
 
@@ -35,6 +36,15 @@ interface LicensesDetails {
   organizationCustomer: ''
   status: boolean,
 }
+interface LicensesRenueDate {
+  _id: '',
+  id: '',
+  initialDate: '',
+  expirationDate: '',
+  purchaseDate: '',
+
+}
+
 interface LicenseStatusChange {
   id: '',
   _id: '',
@@ -48,11 +58,33 @@ const Table = (): JSX.Element => {
   const [globalFilter, setGlobalFilter] = useState("");
 
   const [selectedLicense, setSelectedLicense] = useState<Licenses | null>(null);
+  // const [selectedLicenseRenuew, setSelectedLicenseRenuew] = useState<LicensesRenueDate | null>(null);
+
   const [selectedLicenseDetails, setSelectedLicenseDetails] = useState<LicensesDetails | null>(null);
 
 
   const [modalVisible, setModalVisible] = useState(false);
   const [modalDetailVisible, setModalDetailVisible] = useState(false);
+
+  // const [renewModalVisible, setRenewModalVisible] = useState(false);
+
+  // const showRenewModal = (rowData: Licenses) => {
+  //   setSelectedLicenseRenuew(rowData);
+
+  //   setRenewModalVisible(true);
+  // };
+
+  // const hideRenewModal = () => {
+  //   setRenewModalVisible(false);
+  // };
+
+
+
+
+  // Nueva función y plantilla para el botón de renovar
+
+
+
 
   //editar
   const editTemplate = (rowData: Licenses) => (
@@ -67,10 +99,10 @@ const Table = (): JSX.Element => {
     <ToggleButton
       checked={rowData.status}
       onChange={() => toggleStatus(rowData)}
-      onLabel="Active" 
+      onLabel="Active"
       offLabel="Inactive"
       onIcon={<i className="pi pi-check" style={{ color: 'white', padding: '5px' }} />}
-      offIcon={<i className="pi pi-times" style={{ color: 'white', padding: '5px'}} />}
+      offIcon={<i className="pi pi-times" style={{ color: 'white', padding: '5px' }} />}
       style={{ backgroundColor: rowData.status ? 'green' : 'red', border: 'none', color: 'white' }}
     />
   );
@@ -79,7 +111,7 @@ const Table = (): JSX.Element => {
     try {
       // Actualizar el estado localmente
       const updatedData = dataStatus.map((license) =>
-        license.id === rowData.id ? { ...license, status: !license.status} : license
+        license.id === rowData.id ? { ...license, status: !license.status } : license
       );
       setDataStatus(updatedData);
 
@@ -91,13 +123,12 @@ const Table = (): JSX.Element => {
       console.error("Error al actualizar el estado:", error);
     }
   };
+  
   const editLicense = (rowData: Licenses) => {
     setSelectedLicense(rowData);
     setModalVisible(true);
   };
-  //visualizar 
-  console.log(selectedLicense);
-  
+
   const viewTemplate = (rowData: LicensesDetails) => (
     <Button
       icon="pi pi-eye"
@@ -115,7 +146,7 @@ const Table = (): JSX.Element => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://api-licences-java.onrender.com/licenses"
+          "http://localhost:8080/licenses"
         );
         setData(Object.values(response.data.data));
       } catch (error) {
@@ -181,10 +212,18 @@ const Table = (): JSX.Element => {
         />
         <Column field="status" header="Status" sortable filter />
         <Column exportable={false} style={{ minWidth: '12rem' }}></Column>
-        <Column field="status" header="Estado" body={toggleStatusTemplate} style={{ textAlign: 'center', width: '8em' }}
-        />
-        <Column body={viewTemplate} style={{ textAlign: 'center', width: '8em' }} />
-        <Column body={editTemplate} style={{ textAlign: 'center', width: '8em' }} />
+        <Column field="status" header="Estado" body={toggleStatusTemplate} style={{ textAlign: 'center', width: '8em' }} />
+        <Column body={viewTemplate} style={{ textAlign: 'center', width: '8em' }} header="Detalle" />
+        <Column body={editTemplate} style={{ textAlign: 'center', width: '8em' }} header="Editar" />
+        {/* <Column header="Renovar" body={(rowData: Licenses) => (
+          <Button
+            icon="pi pi-refresh"
+            className="p-button-success"
+            onClick={() => showRenewModal(rowData)}
+          />
+        )}
+          style={{ textAlign: 'center', width: '8em' }}
+        /> */}
       </DataTable>
       <ModalFormulario
         visible={modalVisible}
@@ -202,6 +241,7 @@ const Table = (): JSX.Element => {
         }}
         selectedLicenseDetails={selectedLicenseDetails}
       />
+       {/* <RenewModal visible={renewModalVisible} onHide={hideRenewModal}  selectedLicenseRenuew={selectedLicenseRenuew} /> */}
     </div>
   );
 };
