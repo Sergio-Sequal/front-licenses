@@ -120,11 +120,22 @@ const Table = (): JSX.Element => {
           : license
       );
       setDataStatus(updatedData);
-
+      console.log(rowData._id);
+      
       // Realizar la llamada a la API para actualizar el estado en el servidor
-      await axios.get(
-        `https://api-licences-java.onrender.com/status?id=${rowData._id}`
-      );
+      try{
+        
+        await axios.get(
+          `http://localhost:8080/licenses/status?id=${rowData._id}`
+        )
+          window.location.reload();
+          console.log('Datos actualizados exitosamente');
+       
+      }catch (error) {
+        console.error('Error en el servidor');
+      }
+     
+      
     } catch (error) {
       console.error("Error al actualizar el estado:", error);
     }
