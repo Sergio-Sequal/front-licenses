@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
-import axios from "axios";
+import axiosInstance from "../services/axiosInstance";
 
 // Definir el tipo de datos para los objetos recibidos de la API
 interface Licenses {
@@ -17,20 +17,19 @@ const Table = (): JSX.Element => {
   const [globalFilter, setGlobalFilter] = useState("");
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://api-licences-java.onrender.com/licenses"
-        );
-        setData(Object.values(response.data.data));
-      } catch (error) {
+    // Realizar la solicitud GET al cargar el componente
+    axiosInstance
+      .get("/licenses")
+      .then((response) => {
+        // Manejar la respuesta exitosa
+             
+        setData(response.data.data);
+      })
+      .catch((error) => {
+        // Manejar el error
         console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
+      });
   }, []);
-
 
   const header = (
     <div className="table-header">
@@ -61,7 +60,7 @@ const Table = (): JSX.Element => {
         }}
         globalFilter={globalFilter}
         header={header}
-        editMode="row" 
+        editMode="row"
         dataKey="id"
       >
         <Column field="customerName" header="Name" sortable filter />
@@ -73,7 +72,7 @@ const Table = (): JSX.Element => {
           filter
         />
         <Column field="status" header="Status" sortable filter />
-        <Column exportable={false} style={{ minWidth: '12rem' }}></Column>
+        <Column exportable={false} style={{ minWidth: "12rem" }}></Column>
       </DataTable>
     </div>
   );
