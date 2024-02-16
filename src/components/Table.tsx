@@ -4,6 +4,7 @@ import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
 import { Button } from 'primereact/button';
 import ModalFormulario from "./ModalFormulario";
+import ModalDetails from "./ModalDetails";
 import axios from "axios";
 
 // Definir el tipo de datos para los objetos recibidos de la API
@@ -20,12 +21,28 @@ interface Licenses {
 
 }
 
+interface LicensesDetails {
+  customerMail: '',
+  customerName: '',
+  initialDate: '',
+  expirationDate: '',
+  purchaseDate: '',
+  usersNumber: '',
+  licenseType: '',
+  usersWithLicense: [],
+  status: boolean,
+}
+
 const Table = (): JSX.Element => {
   const [data, setData] = useState<Licenses[]>([]);
   const [globalFilter, setGlobalFilter] = useState("");
   const [selectedLicense, setSelectedLicense] = useState<Licenses | null>(null);
-  const [modalVisible, setModalVisible] = useState(false)
+  const [selectedLicenseDetails, setSelectedLicenseDetails] = useState<LicensesDetails | null>(null);
 
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalDetailVisible, setModalDetailVisible] = useState(false);
+
+  //editar
   const editTemplate = (rowData: Licenses) => (
     <Button
       icon="pi pi-pencil"
@@ -33,10 +50,24 @@ const Table = (): JSX.Element => {
       onClick={() => editLicense(rowData)}
     />
   );
-
+    console.log(selectedLicenseDetails);
+    
   const editLicense = (rowData: Licenses) => {
     setSelectedLicense(rowData);
     setModalVisible(true);
+  };
+//visualizar 
+  const viewTemplate = (rowData: LicensesDetails) => (
+    <Button
+      icon="pi pi-eye"
+      className="p-button-info"
+      onClick={() => viewLicense(rowData)}
+    />
+  );
+
+  const viewLicense = (rowData: LicensesDetails) => {
+    setSelectedLicenseDetails(rowData);
+    setModalDetailVisible(true);
   };
 
   useEffect(() => {
@@ -109,6 +140,7 @@ const Table = (): JSX.Element => {
         />
         <Column field="status" header="Status" sortable filter />
         <Column exportable={false} style={{ minWidth: '12rem' }}></Column>
+        <Column body={viewTemplate} style={{ textAlign: 'center', width: '8em' }} />
         <Column body={editTemplate} style={{ textAlign: 'center', width: '8em' }} />
       </DataTable>
       <ModalFormulario
@@ -118,6 +150,14 @@ const Table = (): JSX.Element => {
           setSelectedLicense(null);
         }}
         selectedLicense={selectedLicense}
+      />
+      <ModalDetails
+        visible={modalDetailVisible}
+        onHide={() => {
+          setModalDetailVisible(false);
+          setSelectedLicenseDetails(null);
+        }}
+        selectedLicenseDetails={selectedLicenseDetails}
       />
     </div>
   );

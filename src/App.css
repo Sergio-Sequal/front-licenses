@@ -1,0 +1,25 @@
+.container_detail_principal {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0 20% 0 20%; /* Ajusta el margen según sea necesario */
+  }
+  
+  .container_detail_principal_header {
+    display: flex;
+    justify-content: space-between; /* Ajusta para que los elementos estén en los bordes */
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .container_detail_principal_header_title {
+    font-size: 17px;
+    font-weight: 600;
+    color: #000;
+  }
+  
+  .container_detail_principal_header_descripcion {
+    font-size: 17px;
+    font-weight: 600;
+    color: #0a5d52;
+  }
