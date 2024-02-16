@@ -40,7 +40,7 @@ const Layout = (): JSX.Element => {
             icon="pi pi-plus-circle"
           />
         </div>
-        <ModalFormulario visible={modalVisible} onHide={handleCloseModal} />
+        <ModalFormulario visible={modalVisible} onHide={handleCloseModal} selectedLicense={null} />
         <Table />
       </section>
       <footer className="col-span-6 h-8">
