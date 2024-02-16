@@ -5,7 +5,7 @@ import { InputText } from "primereact/inputtext";
 import { Button } from 'primereact/button';
 import ModalFormulario from "./ModalFormulario";
 import ModalDetails from "./ModalDetails";
-import RenewModal from './RenewModal'; // Importar el componente RenewModal
+import RenewModal from './RenewModal'; 
 import { ToggleButton } from 'primereact/togglebutton';
 import axios from "axios";
 
@@ -36,14 +36,14 @@ interface LicensesDetails {
   organizationCustomer: ''
   status: boolean,
 }
-interface LicensesRenueDate {
-  _id: '',
-  id: '',
-  initialDate: '',
-  expirationDate: '',
-  purchaseDate: '',
+// interface LicensesRenueDate {
+//   _id: '',
+//   id: '',
+//   initialDate: '',
+//   expirationDate: '',
+//   purchaseDate: '',
 
-}
+// }
 
 interface LicenseStatusChange {
   id: '',
@@ -116,7 +116,7 @@ const Table = (): JSX.Element => {
       setDataStatus(updatedData);
 
       // Realizar la llamada a la API para actualizar el estado en el servidor
-      await axios.put(
+      await axios.get(
         `https://api-licences-java.onrender.com/status?id=${rowData._id}`
       );
     } catch (error) {
