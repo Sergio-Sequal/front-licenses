@@ -14,6 +14,7 @@ interface Licenses {
     licenseType: '',
     _id: '',
     id: '',
+    organizationCustomer : '',
 }
 interface ModalFormularioProps {
   visible: boolean;

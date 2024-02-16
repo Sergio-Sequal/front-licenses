@@ -13,6 +13,7 @@ interface Licenses {
     licenseType: '',
     _id: '',
     id: '',
+    organizationCustomer: ''
  
 }
 interface FormularioProps {
@@ -31,6 +32,7 @@ const Formulario: React.FC<FormularioProps> = ({ onHide, selectedLicense }) => {
     purchaseDate: '',
     usersNumber: '',
     licenseType: '',
+    organizationCustomer: ''
   });
   
   const editMode = !!selectedLicense;
@@ -48,7 +50,9 @@ const Formulario: React.FC<FormularioProps> = ({ onHide, selectedLicense }) => {
         purchaseDate: selectedLicense.purchaseDate,
         usersNumber: selectedLicense.usersNumber.toString(), // Convertir a cadena si es numérico
         licenseType: selectedLicense.licenseType,
-        id: selectedLicense._id || ''
+        id: selectedLicense._id || '',
+      organizationCustomer: selectedLicense.organizationCustomer
+
       });
     } else {
       // Si no hay una licencia seleccionada, reinicia el estado
@@ -62,6 +66,7 @@ const Formulario: React.FC<FormularioProps> = ({ onHide, selectedLicense }) => {
         purchaseDate: '',
         usersNumber: '',
         licenseType: '',
+        organizationCustomer: ''
       });
     }
   }, [selectedLicense]);
@@ -92,6 +97,7 @@ const Formulario: React.FC<FormularioProps> = ({ onHide, selectedLicense }) => {
           purchaseDate: formData.purchaseDate,
           usersNumber: formData.usersNumber,
           licenseType: formData.licenseType,
+          organizationCustomer: formData.organizationCustomer
         }
         console.log(formDataConvert);
         
@@ -103,6 +109,7 @@ const Formulario: React.FC<FormularioProps> = ({ onHide, selectedLicense }) => {
         });
 
         if (response.status === 200) {
+          window.location.reload();
           console.log('Datos actualizados exitosamente');
         } else {
           console.error('Error al actualizar los datos');
@@ -115,6 +122,7 @@ const Formulario: React.FC<FormularioProps> = ({ onHide, selectedLicense }) => {
         });
 
         if (response.status === 200) {
+          window.location.reload();
           console.log('Datos guardados exitosamente');
         } else {
           console.error('Error al guardar los datos');
@@ -158,6 +166,22 @@ const Formulario: React.FC<FormularioProps> = ({ onHide, selectedLicense }) => {
           className={`form-input border-2 ${formData.customerName === '' ? 'border-red-500' : 'border-blue-500'} focus:outline-none focus:border-blue-700 px-4 py-2 rounded-md w-full`}
         />
          {formData.customerName === '' && <small className="text-red-500">Este campo es obligatorio</small>}
+
+      </label>
+    </div>
+    <div className="w-full  mb-4  px-2">
+      <label className="block mb-2">
+        Organización del Cliente:
+        <input
+          type="text"
+          placeholder = "Organización del Cliente"
+          name="organizationCustomer"
+          required
+          value={formData.organizationCustomer}
+          onChange={handleInputChange}
+          className={`form-input border-2 ${formData.organizationCustomer === '' ? 'border-red-500' : 'border-blue-500'} focus:outline-none focus:border-blue-700 px-4 py-2 rounded-md w-full`}
+        />
+         {formData.organizationCustomer === '' && <small className="text-red-500">Este campo es obligatorio</small>}
 
       </label>
     </div>

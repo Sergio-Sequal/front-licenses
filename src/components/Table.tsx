@@ -5,19 +5,21 @@ import { InputText } from "primereact/inputtext";
 import { Button } from 'primereact/button';
 import ModalFormulario from "./ModalFormulario";
 import ModalDetails from "./ModalDetails";
+import { ToggleButton } from 'primereact/togglebutton';
 import axios from "axios";
 
 // Definir el tipo de datos para los objetos recibidos de la API
 interface Licenses {
-    customerMail: '',
-    customerName: '',
-    initialDate: '',
-    expirationDate: '',
-    purchaseDate: '',
-    usersNumber: '',
-    licenseType: '',
-    _id: '',
-    id: '',
+  customerMail: '',
+  customerName: '',
+  initialDate: '',
+  expirationDate: '',
+  purchaseDate: '',
+  usersNumber: '',
+  licenseType: '',
+  _id: '',
+  id: '',
+  organizationCustomer: ''
 
 }
 
@@ -30,14 +32,24 @@ interface LicensesDetails {
   usersNumber: '',
   licenseType: '',
   usersWithLicense: [],
+  organizationCustomer: ''
+  status: boolean,
+}
+interface LicenseStatusChange {
+  id: '',
+  _id: '',
   status: boolean,
 }
 
 const Table = (): JSX.Element => {
   const [data, setData] = useState<Licenses[]>([]);
+  const [dataStatus, setDataStatus] = useState<LicenseStatusChange[]>([]);
+
   const [globalFilter, setGlobalFilter] = useState("");
+
   const [selectedLicense, setSelectedLicense] = useState<Licenses | null>(null);
   const [selectedLicenseDetails, setSelectedLicenseDetails] = useState<LicensesDetails | null>(null);
+
 
   const [modalVisible, setModalVisible] = useState(false);
   const [modalDetailVisible, setModalDetailVisible] = useState(false);
@@ -50,13 +62,42 @@ const Table = (): JSX.Element => {
       onClick={() => editLicense(rowData)}
     />
   );
-    console.log(selectedLicenseDetails);
-    
+
+  const toggleStatusTemplate = (rowData: LicenseStatusChange) => (
+    <ToggleButton
+      checked={rowData.status}
+      onChange={() => toggleStatus(rowData)}
+      onLabel="Active" 
+      offLabel="Inactive"
+      onIcon={<i className="pi pi-check" style={{ color: 'white', padding: '5px' }} />}
+      offIcon={<i className="pi pi-times" style={{ color: 'white', padding: '5px'}} />}
+      style={{ backgroundColor: rowData.status ? 'green' : 'red', border: 'none', color: 'white' }}
+    />
+  );
+
+  const toggleStatus = async (rowData: LicenseStatusChange) => {
+    try {
+      // Actualizar el estado localmente
+      const updatedData = dataStatus.map((license) =>
+        license.id === rowData.id ? { ...license, status: !license.status} : license
+      );
+      setDataStatus(updatedData);
+
+      // Realizar la llamada a la API para actualizar el estado en el servidor
+      await axios.put(
+        `https://api-licences-java.onrender.com/status?id=${rowData._id}`
+      );
+    } catch (error) {
+      console.error("Error al actualizar el estado:", error);
+    }
+  };
   const editLicense = (rowData: Licenses) => {
     setSelectedLicense(rowData);
     setModalVisible(true);
   };
-//visualizar 
+  //visualizar 
+  console.log(selectedLicense);
+  
   const viewTemplate = (rowData: LicensesDetails) => (
     <Button
       icon="pi pi-eye"
@@ -111,7 +152,7 @@ const Table = (): JSX.Element => {
       </span>
     </div>
   );
-    
+
   return (
     <div className="datatable">
       <DataTable
@@ -127,7 +168,7 @@ const Table = (): JSX.Element => {
         }}
         globalFilter={globalFilter}
         header={header}
-        editMode="row" 
+        editMode="row"
         dataKey="id"
       >
         <Column field="customerName" header="Name" sortable filter />
@@ -140,6 +181,8 @@ const Table = (): JSX.Element => {
         />
         <Column field="status" header="Status" sortable filter />
         <Column exportable={false} style={{ minWidth: '12rem' }}></Column>
+        <Column field="status" header="Estado" body={toggleStatusTemplate} style={{ textAlign: 'center', width: '8em' }}
+        />
         <Column body={viewTemplate} style={{ textAlign: 'center', width: '8em' }} />
         <Column body={editTemplate} style={{ textAlign: 'center', width: '8em' }} />
       </DataTable>
