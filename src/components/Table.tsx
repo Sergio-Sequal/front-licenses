@@ -120,22 +120,17 @@ const Table = (): JSX.Element => {
           : license
       );
       setDataStatus(updatedData);
-      console.log(rowData._id);
-      
+
       // Realizar la llamada a la API para actualizar el estado en el servidor
-      try{
-        
+      try {
         await axios.get(
           `http://localhost:8080/licenses/status?id=${rowData._id}`
-        )
-          window.location.reload();
-          console.log('Datos actualizados exitosamente');
-       
-      }catch (error) {
-        console.error('Error en el servidor');
+        );
+        window.location.reload();
+        console.log("Datos actualizados exitosamente");
+      } catch (error) {
+        console.error("Error en el servidor");
       }
-     
-      
     } catch (error) {
       console.error("Error al actualizar el estado:", error);
     }
@@ -194,8 +189,8 @@ const Table = (): JSX.Element => {
         value={data}
         removableSort
         paginator
-        rows={5}
-        rowsPerPageOptions={[5, 10]}
+        rows={6}
+        //rowsPerPageOptions={[5, 10]}
         tableStyle={{
           minWidth: "40rem",
           maxHeight: "400px",
@@ -219,19 +214,19 @@ const Table = (): JSX.Element => {
         <Column exportable={false} style={{ minWidth: "12rem" }}></Column>
         <Column
           field="status"
-          header="Estado"
+          header="Status"
           body={toggleStatusTemplate}
           style={{ textAlign: "center", width: "8em" }}
         />
         <Column
           body={viewTemplate}
           style={{ textAlign: "center", width: "8em" }}
-          header="Detalle"
+          header="Detail"
         />
         <Column
           body={editTemplate}
           style={{ textAlign: "center", width: "8em" }}
-          header="Editar"
+          header="Update"
         />
         {/* <Column header="Renovar" body={(rowData: Licenses) => (
           <Button

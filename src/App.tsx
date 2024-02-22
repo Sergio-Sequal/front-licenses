@@ -1,6 +1,8 @@
 import Layout from "./layout/Layout";
 import Loader from "./components/Loader";
 import { useEffect, useState } from "react";
+import { ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
@@ -18,6 +20,7 @@ const App = (): JSX.Element => {
     <div>
       {loading && <Loader />}
       <Layout />
+      <ToastContainer />
     </div>
   );
 };

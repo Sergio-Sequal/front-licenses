@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faIdCard, faGauge } from "@fortawesome/free-solid-svg-icons";
 import Table from "../components/Table";
 import ModalFormulario from "../components/ModalFormulario";
-import logo from '/src/assets/images/logo.png';
+import logo from "/src/assets/images/logo.png";
 
 const Layout = (): JSX.Element => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -40,7 +40,11 @@ const Layout = (): JSX.Element => {
             icon="pi pi-plus-circle"
           />
         </div>
-        <ModalFormulario visible={modalVisible} onHide={handleCloseModal} selectedLicense={null} />
+        <ModalFormulario
+          visible={modalVisible}
+          onHide={handleCloseModal}
+          selectedLicense={null}
+        />
         <Table />
       </section>
       <footer className="col-span-6 h-8">

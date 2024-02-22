@@ -24,7 +24,7 @@ interface ModalFormularioProps {
 
 const ModalFormulario: React.FC<ModalFormularioProps> = ({ visible, onHide,selectedLicense }) => {
   return (
-    <Dialog header={selectedLicense ? "Editar Licencia" : "Crear Licencia"} visible={visible} style={{ width: '50vw' }} onHide={onHide}>
+    <Dialog header={selectedLicense ? "Update License" : "Create License"} visible={visible} style={{ width: '50vw' }} onHide={onHide}>
       <Formulario onHide={onHide} selectedLicense={selectedLicense}  />
     </Dialog>
   );
