@@ -31,3 +31,18 @@
     gap: 10px;
     
   }
+  
+  .bg-login-image {
+    background: url("./assets/images/Logo1.png");
+    background-position: center;
+    background-size: cover;
+  }
+  
+  .p-dialog .p-dialog-titlebar-close {
+    display: none;
+  }
+  @media (max-width: 767px) {
+    .bg-login-image {
+      display: none; /* Oculta la imagen en dispositivos móviles */
+    }
+  }

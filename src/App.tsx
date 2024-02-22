@@ -1,9 +1,10 @@
 import Layout from "./layout/Layout";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Loader from "./components/Loader";
 import { useEffect, useState } from "react";
 import { ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import LoginPage from "./components/Login";
 const App = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
 
@@ -18,9 +19,14 @@ const App = (): JSX.Element => {
 
   return (
     <div>
-      {loading && <Loader />}
-      <Layout />
-      <ToastContainer />
+      <Router>
+       {loading && <Loader />}
+
+            <Routes>
+                <Route path="/front-licenses/home" element={<Layout />} />
+                <Route path="/front-licenses" element={<LoginPage />} />
+            </Routes>
+        </Router>
     </div>
   );
 };
