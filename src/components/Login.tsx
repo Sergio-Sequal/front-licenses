@@ -63,7 +63,7 @@ const LoginPage: React.FC = () => {
                   <div className="p-5">
                     <div className="text-center">
                       <h1 className="text-3xl text-gray-900 mb-4">
-                        Bienvenido
+                        SBOT LICENSES
                       </h1>
                     </div>
                     <form
@@ -76,7 +76,7 @@ const LoginPage: React.FC = () => {
                           required
                           className="w-full px-3 py-2 border rounded"
                           aria-describedby="emailHelp"
-                          placeholder="Correo Electronico"
+                          placeholder="Email address"
                           value={adminMail}
                           onChange={(e) => setAdminMail(e.target.value)}
                         />
@@ -86,7 +86,7 @@ const LoginPage: React.FC = () => {
                           type="password"
                           required
                           className="w-full px-3 py-2 border rounded"
-                          placeholder="Contraseña"
+                          placeholder="Password"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                         />
@@ -106,7 +106,7 @@ const LoginPage: React.FC = () => {
                                                 </div>
                                             </div> */}
                       <Button
-                        label="Iniciar Sesión"
+                        label="Sign in"
                         type="submit"
                         className="p-button-primary p-button-rounded p-button-outlined custom-hover"
                       />
