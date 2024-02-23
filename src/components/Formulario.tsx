@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useAuth } from "./AuthContext";
 import axiosInstance from "../services/axiosInstance";
+import { useNavigate } from "react-router-dom";
 
 interface Licenses {
   customerMail: "";
@@ -23,6 +24,7 @@ interface FormularioProps {
 }
 
 const Formulario: React.FC<FormularioProps> = ({ onHide, selectedLicense }) => {
+  const navigate = useNavigate();
   const { token } = useAuth();
   const [formData, setFormData] = useState({
     _id: "",

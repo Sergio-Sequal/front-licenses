@@ -27,6 +27,7 @@ const App = (): JSX.Element => {
                 <Route path="/front-licenses" element={<LoginPage />} />
             </Routes>
         </Router>
+        <ToastContainer/>
     </div>
   );
 };

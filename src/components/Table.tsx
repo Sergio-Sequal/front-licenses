@@ -10,6 +10,7 @@ import ModalDetails from "./ModalDetails";
 import { ToggleButton } from "primereact/togglebutton";
 //importar ruta servidor
 import { useAuth } from "./AuthContext";
+import { toast } from "react-toastify";
 
 // Definir el tipo de datos para los objetos recibidos de la API
 interface Licenses {
@@ -131,8 +132,15 @@ const Table = (): JSX.Element => {
             }
           }
         );
-        window.location.reload();
-        console.log("Datos actualizados exitosamente");
+        toast("Status updated successfully", {
+          type: "success",
+          autoClose: 2000,
+          position: "top-center",
+          theme: "colored",
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       } catch (error) {
         console.error("Error en el servidor");
       }
