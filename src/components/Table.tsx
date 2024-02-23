@@ -2,15 +2,14 @@ import { useState, useEffect } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
-
 import axiosInstance from "../services/axiosInstance";
-
 import { Button } from "primereact/button";
 import ModalFormulario from "./ModalFormulario";
 import ModalDetails from "./ModalDetails";
 //import RenewModal from "./RenewModal";
 import { ToggleButton } from "primereact/togglebutton";
-import axios from "axios";
+//importar ruta servidor
+import { useAuth } from "./AuthContext";
 
 // Definir el tipo de datos para los objetos recibidos de la API
 interface Licenses {
@@ -54,6 +53,7 @@ interface LicenseStatusChange {
 }
 
 const Table = (): JSX.Element => {
+  const { token } = useAuth();
   const [data, setData] = useState<Licenses[]>([]);
   const [dataStatus, setDataStatus] = useState<LicenseStatusChange[]>([]);
 
@@ -123,8 +123,13 @@ const Table = (): JSX.Element => {
 
       // Realizar la llamada a la API para actualizar el estado en el servidor
       try {
-        await axios.get(
-          `http://localhost:8080/licenses/status?id=${rowData._id}`
+        await axiosInstance.get(
+          `/licenses/status?id=${rowData._id}`,
+          {
+            headers: {
+              'Authorization': `${token}`
+            }
+          }
         );
         window.location.reload();
         console.log("Datos actualizados exitosamente");
@@ -157,7 +162,12 @@ const Table = (): JSX.Element => {
   useEffect(() => {
     // Realizar la solicitud GET al cargar el componente
     axiosInstance
-      .get("/licenses")
+      .get("/licenses", {
+        headers: {
+          Authorization: `${token}`, // Reemplaza con el nombre correcto de tu token
+          'Content-Type': 'application/json',
+        },
+      })
       .then((response) => {
         // Manejar la respuesta exitosa
 

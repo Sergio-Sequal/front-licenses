@@ -1,8 +1,10 @@
 // Formulario.tsx
 
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { useAuth } from "./AuthContext";
+import axiosInstance from "../services/axiosInstance";
+
 interface Licenses {
   customerMail: "";
   customerName: "";
@@ -21,6 +23,7 @@ interface FormularioProps {
 }
 
 const Formulario: React.FC<FormularioProps> = ({ onHide, selectedLicense }) => {
+  const { token } = useAuth();
   const [formData, setFormData] = useState({
     _id: "",
     id: "",
@@ -99,12 +102,13 @@ const Formulario: React.FC<FormularioProps> = ({ onHide, selectedLicense }) => {
           organizationCustomer: formData.organizationCustomer,
         };
 
-        const response = await axios.post(
-          "http://localhost:8080/licenses/update",
+        const response = await axiosInstance.post(
+          "/licenses/update",
           formDataConvert,
           {
             headers: {
               "Content-Type": "application/json",
+              'Authorization': `${token}`
             },
           }
         );
@@ -123,12 +127,13 @@ const Formulario: React.FC<FormularioProps> = ({ onHide, selectedLicense }) => {
           console.error("Error al actualizar los datos");
         }
       } else {
-        const response = await axios.post(
+        const response = await axiosInstance.post(
           "http://localhost:8080/licenses",
           formData,
           {
             headers: {
               "Content-Type": "application/json",
+              'Authorization': `${token}`
             },
           }
         );

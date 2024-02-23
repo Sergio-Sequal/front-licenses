@@ -3,6 +3,8 @@ import React, { createContext, useContext, ReactNode, useState, useEffect } from
 interface AuthContextProps {
   isAuthenticated: boolean;
   setAuthentication: (value: boolean) => void;
+  token: string | null;
+  setToken: (value: string | null) => void;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -18,6 +20,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return storedAuthStatus ? JSON.parse(storedAuthStatus) : false;
   });
 
+  const [token, setToken] = useState<string | null>(() => {
+    // Obtener el token almacenado en localStorage al inicio
+    return localStorage.getItem("token");
+  });
+
   const setAuthentication = (value: boolean) => {
     setIsAuthenticated(value);
   };
@@ -27,12 +34,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     localStorage.setItem("isAuthenticated", String(isAuthenticated));
   }, [isAuthenticated]);
 
+  // Almacenar el token en localStorage cuando cambie
+  useEffect(() => {
+    if (isAuthenticated) {
+      // Si está autenticado, almacena el token en localStorage
+      localStorage.setItem("token", token || "");
+    } else {
+      // Si no está autenticado, elimina el token de localStorage
+      localStorage.removeItem("token");
+    }
+  }, [isAuthenticated, token]);
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, setAuthentication }}>
+    <AuthContext.Provider value={{ isAuthenticated, setAuthentication, token, setToken }}>
       {children}
     </AuthContext.Provider>
   );
 };
+
 
 export const useAuth = () => {
   const context = useContext(AuthContext);

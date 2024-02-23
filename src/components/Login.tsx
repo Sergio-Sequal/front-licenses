@@ -2,52 +2,55 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../App.css';
 import { Button } from 'primereact/button';
-import axios from 'axios';
 import { useAuth } from './AuthContext';
+import axiosInstance from "../services/axiosInstance";
+//importar ruta servidor
 const LoginPage: React.FC = () => {
+    
     const navigate = useNavigate();
-    const [email, setEmail] = useState<string>('');
+    const [adminMail, setAdminMail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const { setAuthentication } = useAuth();
+    const { setToken } = useAuth();
 
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        // Realizar la solicitud Axios aquí
-        axios
-            .get('tu_url_de_login', {
-                params: {
-                    email: email,
+        try {
+
+            const response = await axiosInstance.post(
+                `/admins/auth`,
+                {
+                    adminMail: adminMail,
                     password: password,
                 },
-            })
-            .then((response) => {
-                // Verificar si el correo es correcto
-                console.log(email);
-                console.log(password);
-                if (response.data.email === email && response.data.password === password) {
-                    // Manejar la respuesta exitosa aquí
-                    console.log('Inicio de sesión exitoso', response.data);
-                    setAuthentication(true);
-                    navigate('/front-licenses/home');
-                    setEmail('');
-                    setPassword('');
-                } else {
-                    console.error('El correo no coincide con la base de datos');
-                    setEmail('');
-                    setPassword('');
-                    
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
                 }
-            })
-            .catch((error) => {
-                // Manejar el error aquí
-                console.error('Error al iniciar sesión', error);
+            );
+            // Verificar la respuesta del servidor
+            if (response.status === 200) {
+                console.log('Inicio de sesión exitoso', response.data);
                 setAuthentication(true);
+                setToken(response.data.data.token);  // Almacenar el token en el contexto
                 navigate('/front-licenses/home');
-                setEmail('');
+                setAdminMail('');
                 setPassword('');
-            });
+            } else {
+                console.error('Credenciales inválidas');
+                setAdminMail('');
+                setPassword('');
+            }
+        } catch (error) {
+            console.error('Error al iniciar sesión', error);
+            setAdminMail('');
+            setPassword('');
+            // Manejar el error aquí (puedes mostrar un mensaje de error o hacer lo que consideres necesario)
+        }
     };
 
 
@@ -73,9 +76,9 @@ const LoginPage: React.FC = () => {
                                                     required
                                                     className="w-full px-3 py-2 border rounded"
                                                     aria-describedby="emailHelp"
-                                                    placeholder="Enter Email Address"
-                                                    value={email}
-                                                    onChange={(e) => setEmail(e.target.value)}
+                                                    placeholder="Correo Electronico"
+                                                    value={adminMail}
+                                                    onChange={(e) => setAdminMail(e.target.value)}
                                                 />
                                             </div>
                                             <div className="mb-4">
@@ -83,7 +86,7 @@ const LoginPage: React.FC = () => {
                                                     type="password"
                                                     required
                                                     className="w-full px-3 py-2 border rounded"
-                                                    placeholder="Password"
+                                                    placeholder="Contraseña"
                                                     value={password}
                                                     onChange={(e) => setPassword(e.target.value)}
                                                 />

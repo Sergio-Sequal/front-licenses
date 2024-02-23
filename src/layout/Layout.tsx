@@ -10,21 +10,16 @@ import { Navigate } from 'react-router-dom';
 import { ConfirmDialog } from 'primereact/confirmdialog';
 
 const Layout = (): JSX.Element => {
-  const { isAuthenticated, setAuthentication } = useAuth();
+  const { isAuthenticated, setAuthentication, token, setToken } = useAuth();
   const [modalVisible, setModalVisible] = useState(false);
   const [confirmationVisible, setConfirmationVisible] = useState(false);
+  const {  } = useAuth();
 
+  
   // Si no está autenticado, redirigir a la página de inicio de sesión
   if (!isAuthenticated) {
     return <Navigate to="/front-licenses" />;
   }
-  const handleOpenModalCloseSession = () => {
-    setModalVisible(true);
-  };
-
-  const handleCloseModalCloseSession = () => {
-    setModalVisible(false);
-  };
 
   const handleLogout = () => {
     setConfirmationVisible(true);
@@ -34,6 +29,7 @@ const Layout = (): JSX.Element => {
     // Realiza el logout y redirige
     setConfirmationVisible(false);
     setAuthentication(false);
+    setToken(null);
     // Redirige a la página de inicio de sesión
     return <Navigate to="/front-licenses" />;
   };
@@ -53,7 +49,7 @@ const Layout = (): JSX.Element => {
   const confirmDialogFooter = (
     <>
       <Button label="No" icon="pi pi-times" onClick={rejectLogout} className="p-button-text" />
-      <Button label="Yes" icon="pi pi-check" onClick={confirmLogout} autoFocus />
+      <Button label="Cerrar Sesion" icon="pi pi-check" onClick={confirmLogout} autoFocus />
     </>
   );
   return (
