@@ -47,8 +47,6 @@ const LoginPage: React.FC = () => {
             }
         } catch (error) {
             console.error('Error al iniciar sesión', error);
-            setAdminMail('');
-            setPassword('');
             // Manejar el error aquí (puedes mostrar un mensaje de error o hacer lo que consideres necesario)
         }
     };
