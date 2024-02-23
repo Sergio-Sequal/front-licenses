@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../App.css';
 import { Button } from 'primereact/button';
+import axios from 'axios';
 import { useAuth } from './AuthContext';
-import axiosInstance from "../services/axiosInstance";
 //importar ruta servidor
 const LoginPage: React.FC = () => {
     
@@ -20,8 +20,8 @@ const LoginPage: React.FC = () => {
 
         try {
 
-            const response = await axiosInstance.post(
-                `/admins/auth`,
+            const response = await axios.post(
+                `https://api-licences-java.onrender.com/admins/auth`,
                 {
                     adminMail: adminMail,
                     password: password,
