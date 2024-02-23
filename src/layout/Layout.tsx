@@ -10,7 +10,7 @@ import { Navigate } from 'react-router-dom';
 import { ConfirmDialog } from 'primereact/confirmdialog';
 
 const Layout = (): JSX.Element => {
-  const { isAuthenticated, setAuthentication, token, setToken } = useAuth();
+  const { isAuthenticated, setAuthentication, setToken } = useAuth();
   const [modalVisible, setModalVisible] = useState(false);
   const [confirmationVisible, setConfirmationVisible] = useState(false);
   const {  } = useAuth();

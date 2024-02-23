@@ -47,6 +47,7 @@ const LoginPage: React.FC = () => {
             }
         } catch (error) {
             console.error('Error al iniciar sesión', error);
+            //Agregar alerta contraseña invalida
             // Manejar el error aquí (puedes mostrar un mensaje de error o hacer lo que consideres necesario)
         }
     };
