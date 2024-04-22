@@ -8,9 +8,14 @@
   @tailwind components;
   @tailwind utilities;
 }
-
-html{
-    background-color: #ebeffa;
+html {
+  box-sizing: border-box;
+  background-color: #ebeffa;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
 }
 
 body{

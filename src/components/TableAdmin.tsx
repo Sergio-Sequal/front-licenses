@@ -4,39 +4,33 @@ import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
 import axiosInstance from "../services/axiosInstance";
 import { Button } from "primereact/button";
-import ModalDetails from "./ModalDetailsLicense";
 //import RenewModal from "./RenewModal";
 import { ToggleButton } from "primereact/togglebutton";
 //importar ruta servidor
 import { useAuth } from "./AuthContext";
 import { toast } from "react-toastify";
-import ModalFormLicense from "./ModalFormLicencse";
+import ModalFormAdmin from "./ModalFormAdmin";
+import ModalDetailsAdmin from "./ModalDetailsAdmin";
 
 // Definir el tipo de datos para los objetos recibidos de la API
-interface Licenses {
-  customerMail: "";
-  customerName: "";
-  initialDate: "";
-  expirationDate: "";
-  purchaseDate: "";
-  usersNumber: "";
-  licenseType: "";
-  _id: "";
+interface Admin {
   id: "";
-  organizationCustomer: "";
+  _id: "";
+  adminMail: "";
+  adminName: "";
+  createdAt: "";
+  updatedAt: "";
+  password: "";
 }
 
-interface LicensesDetails {
-  customerMail: "";
-  customerName: "";
-  initialDate: "";
-  expirationDate: "";
-  purchaseDate: "";
-  usersNumber: "";
-  licenseType: "";
-  usersWithLicense: [];
-  organizationCustomer: "";
+interface AdminDetails {
+  _id: "";
+  id: "";
+  adminMail: "";
+  adminName: "";
   status: boolean;
+  createdAt: "";
+  updatedAt: "";
 }
 // interface LicensesRenueDate {
 //   _id: '',
@@ -47,52 +41,40 @@ interface LicensesDetails {
 
 // }
 
-interface LicenseStatusChange {
+interface adminStatusChange {
   id: "";
   _id: "";
   status: boolean;
 }
 
-const Table = (): JSX.Element => {
+const TableAdmin = (): JSX.Element => {
   const { token } = useAuth();
-  const [data, setData] = useState<Licenses[]>([]);
-  const [dataStatus, setDataStatus] = useState<LicenseStatusChange[]>([]);
+  const [data, setData] = useState<Admin[]>([]);
+  const [dataStatus, setDataStatus] = useState<adminStatusChange[]>([]);
 
   const [globalFilter, setGlobalFilter] = useState("");
 
-  const [selectedLicense, setSelectedLicense] = useState<Licenses | null>(null);
+  const [selectedAdmin, setSelectedAdmin] = useState<Admin | null>(null);
   // const [selectedLicenseRenuew, setSelectedLicenseRenuew] = useState<LicensesRenueDate | null>(null);
 
-  const [selectedLicenseDetails, setSelectedLicenseDetails] =
-    useState<LicensesDetails | null>(null);
+  const [selectedAdminDetails, setSelectedAdminDetails] =
+    useState<AdminDetails | null>(null);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [modalDetailVisible, setModalDetailVisible] = useState(false);
 
-  // const [renewModalVisible, setRenewModalVisible] = useState(false);
-
-  // const showRenewModal = (rowData: Licenses) => {
-  //   setSelectedLicenseRenuew(rowData);
-
-  //   setRenewModalVisible(true);
-  // };
-
-  // const hideRenewModal = () => {
-  //   setRenewModalVisible(false);
-  // };
-
   // Nueva función y plantilla para el botón de renovar
 
   //editar
-  const editTemplate = (rowData: Licenses) => (
+  const editTemplate = (rowData: Admin) => (
     <Button
       icon="pi pi-pencil"
       className="p-button-warning"
-      onClick={() => editLicense(rowData)}
+      onClick={() => editAdmin(rowData)}
     />
   );
 
-  const toggleStatusTemplate = (rowData: LicenseStatusChange) => (
+  const toggleStatusTemplate = (rowData: adminStatusChange) => (
     <ToggleButton
       checked={rowData.status}
       onChange={() => toggleStatus(rowData)}
@@ -112,19 +94,17 @@ const Table = (): JSX.Element => {
     />
   );
 
-  const toggleStatus = async (rowData: LicenseStatusChange) => {
+  const toggleStatus = async (rowData: adminStatusChange) => {
     try {
       // Actualizar el estado localmente
-      const updatedData = dataStatus.map((license) =>
-        license.id === rowData.id
-          ? { ...license, status: !license.status }
-          : license
+      const updatedData = dataStatus.map((admin) =>
+        admin.id === rowData.id ? { ...admin, status: !admin.status } : admin
       );
       setDataStatus(updatedData);
 
       // Realizar la llamada a la API para actualizar el estado en el servidor
       try {
-        await axiosInstance.get(`/licenses/status?id=${rowData._id}`, {
+        await axiosInstance.get(`/admins/status?id=${rowData._id}`, {
           headers: {
             Authorization: `${token}`,
           },
@@ -146,28 +126,28 @@ const Table = (): JSX.Element => {
     }
   };
 
-  const editLicense = (rowData: Licenses) => {
-    setSelectedLicense(rowData);
+  const editAdmin = (rowData: Admin) => {
+    setSelectedAdmin(rowData);
     setModalVisible(true);
   };
 
-  const viewTemplate = (rowData: LicensesDetails) => (
+  const viewTemplate = (rowData: AdminDetails) => (
     <Button
       icon="pi pi-eye"
       className="p-button-info"
-      onClick={() => viewLicense(rowData)}
+      onClick={() => viewAdmin(rowData)}
     />
   );
 
-  const viewLicense = (rowData: LicensesDetails) => {
-    setSelectedLicenseDetails(rowData);
+  const viewAdmin = (rowData: AdminDetails) => {
+    setSelectedAdminDetails(rowData);
     setModalDetailVisible(true);
   };
 
   useEffect(() => {
     // Realizar la solicitud GET al cargar el componente
     axiosInstance
-      .get("/licenses", {
+      .get("/admins", {
         headers: {
           Authorization: `${token}`, // Reemplaza con el nombre correcto de tu token
           "Content-Type": "application/json",
@@ -186,7 +166,7 @@ const Table = (): JSX.Element => {
 
   const header = (
     <div className="table-header">
-      <h5 className="p-m-0">Manage Licenses</h5>
+      <h5 className="p-m-0">Manage Admin</h5>
       <span className="p-input-icon-left">
         <i className="pi pi-search" />
         <InputText
@@ -219,15 +199,9 @@ const Table = (): JSX.Element => {
         editMode="row"
         dataKey="id"
       >
-        <Column field="customerName" header="Name" sortable filter />
-        <Column field="initialDate" header="Initial Date" sortable filter />
-        <Column
-          field="expirationDate"
-          header="Expiration Date"
-          sortable
-          filter
-        />
-        <Column field="status" header="Status" sortable filter />
+        <Column field="adminName" header="Admin Name" sortable filter />
+        <Column field="adminMail" header="Admin Name" sortable filter />
+        <Column field="createdAt" header="Creation Date" sortable filter />
 
         <Column exportable={false} style={{}}></Column>
         <Column
@@ -247,24 +221,24 @@ const Table = (): JSX.Element => {
           header="Update"
         />
       </DataTable>
-      <ModalFormLicense
+      <ModalFormAdmin
         visible={modalVisible}
         onHide={() => {
           setModalVisible(false);
-          setSelectedLicense(null);
+          setSelectedAdmin(null);
         }}
-        selectedLicense={selectedLicense}
+        selectedAdmin={selectedAdmin}
       />
-      <ModalDetails
+      <ModalDetailsAdmin
         visible={modalDetailVisible}
         onHide={() => {
           setModalDetailVisible(false);
-          setSelectedLicenseDetails(null);
+          setSelectedAdminDetails(null);
         }}
-        selectedLicenseDetails={selectedLicenseDetails}
+        selectedAdminDetails={selectedAdminDetails}
       />
     </div>
   );
 };
 
-export default Table;
+export default TableAdmin;

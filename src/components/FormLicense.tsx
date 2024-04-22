@@ -1,10 +1,9 @@
-// Formulario.tsx
+// FormLicense.tsx
 
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useAuth } from "./AuthContext";
 import axiosInstance from "../services/axiosInstance";
-import { useNavigate } from "react-router-dom";
 
 interface Licenses {
   customerMail: "";
@@ -18,13 +17,12 @@ interface Licenses {
   id: "";
   organizationCustomer: "";
 }
-interface FormularioProps {
+interface FormLicenseProps {
   onHide: () => void;
   selectedLicense: Licenses | null;
 }
 
-const Formulario: React.FC<FormularioProps> = ({ onHide, selectedLicense }) => {
-  const navigate = useNavigate();
+const FormLicense: React.FC<FormLicenseProps> = ({ onHide, selectedLicense }) => {
   const { token } = useAuth();
   const [formData, setFormData] = useState({
     _id: "",
@@ -44,7 +42,6 @@ const Formulario: React.FC<FormularioProps> = ({ onHide, selectedLicense }) => {
   useEffect(() => {
     if (selectedLicense) {
       // Si hay una licencia seleccionada, inicializa el estado con sus datos
-
       setFormData({
         _id: selectedLicense._id || "",
         customerMail: selectedLicense.customerMail,
@@ -74,10 +71,10 @@ const Formulario: React.FC<FormularioProps> = ({ onHide, selectedLicense }) => {
     }
   }, [selectedLicense]);
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handleInputChange = ( e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
+
+    console.log(value)
 
     // Realizar la conversión si el campo es "usersNumber"
     const parsedValue = name === "usersNumber" ? parseInt(value, 10) : value;
@@ -335,4 +332,4 @@ const Formulario: React.FC<FormularioProps> = ({ onHide, selectedLicense }) => {
   );
 };
 
-export default Formulario;
+export default FormLicense;

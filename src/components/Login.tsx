@@ -5,7 +5,7 @@ import { Button } from "primereact/button";
 import axios from "axios";
 import { useAuth } from "./AuthContext";
 import { toast } from "react-toastify";
-//importar ruta servidor
+
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const [adminMail, setAdminMail] = useState<string>("");
@@ -19,6 +19,7 @@ const LoginPage: React.FC = () => {
     try {
       const response = await axios.post(
         `https://api-licences-java.onrender.com/admins/auth`,
+        // `http://localhost:8080/admins/auth`,
         {
           adminMail: adminMail,
           password: password,
@@ -29,13 +30,13 @@ const LoginPage: React.FC = () => {
           },
         }
       );
+
       // Verificar la respuesta del servidor
       if (response.status === 200) {
-        console.log("Inicio de sesión exitoso", response.data);
         setAuthentication(true);
         setToken(response.data.data.token); // Almacenar el token en el contexto
-        navigate("/front-licenses/home");
-        window.location.reload();
+        navigate("/licenses/home");
+        //window.location.reload();
         setAdminMail("");
         setPassword("");
       }
@@ -50,7 +51,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-gradient-primary min-h-screen flex items-center justify-center">
+    <div className="bg-gradient-primary min-h-screen mx-6 flex items-center justify-center">
       <div className="container">
         <div className="flex justify-center w-full">
           <div className="w-full max-w-2xl">
@@ -70,45 +71,31 @@ const LoginPage: React.FC = () => {
                       className="flex flex-col items-center"
                       onSubmit={handleSubmit}
                     >
-                      <div className="mb-4">
+                      <div className="mb-4 w-full">
                         <input
                           type="email"
                           required
-                          className="w-full px-3 py-2 border rounded"
+                          className="w-full px-3 py-2 border rounded outline-blue-400"
                           aria-describedby="emailHelp"
                           placeholder="Email address"
                           value={adminMail}
                           onChange={(e) => setAdminMail(e.target.value)}
                         />
                       </div>
-                      <div className="mb-4">
+                      <div className="mb-4 w-full">
                         <input
                           type="password"
                           required
-                          className="w-full px-3 py-2 border rounded"
+                          className="w-full px-3 py-2 border rounded outline-blue-400"
                           placeholder="Password"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                         />
                       </div>
-                      {/* <div className="mb-4">
-                                                <div className="flex items-center">
-                                                    <input
-                                                        type="checkbox"
-                                                        className="mr-2"
-                                                        id="customCheck"
-                                                        checked={rememberMe}
-                                                        onChange={() => setRememberMe(!rememberMe)}
-                                                    />
-                                                    <label htmlFor="customCheck" className="text-sm text-gray-700">
-                                                        Remember Me
-                                                    </label>
-                                                </div>
-                                            </div> */}
                       <Button
                         label="Sign in"
                         type="submit"
-                        className="p-button-primary p-button-rounded p-button-outlined custom-hover"
+                        className="w-full text-white p-button-rounded p-button-outlined bg-sky-500 hover:bg-sky-400"
                       />
                     </form>
                   </div>
