@@ -2,7 +2,6 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import NavBar from "../components/NavBar";
 import { Button } from "primereact/button";
-import ModalFormulario from "../components/ModalFormLicencse";
 import { useState } from "react";
 import TableAdmin from "../components/TableAdmin";
 import ModalFormAdmin from "../components/ModalFormAdmin";
