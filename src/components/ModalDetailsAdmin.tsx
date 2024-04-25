@@ -1,5 +1,3 @@
-// ModalDetalle.tsx
-
 import React from "react";
 import { Dialog } from "primereact/dialog";
 import AdminInformation from "./AdminInformation";
@@ -13,7 +11,7 @@ interface LicensesDetailsAdmin {
 interface ModalDetailsAdminProps {
   visible: boolean;
   onHide: () => void;
-  selectedAdminDetails: LicensesDetailsAdmin;
+  selectedAdminDetails: LicensesDetailsAdmin | null;
 }
 
 const ModalDetailsAdmin: React.FC<ModalDetailsAdminProps> = ({
