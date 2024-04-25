@@ -15,8 +15,6 @@ const NavBar = (): JSX.Element => {
   const { isAuthenticated, setAuthentication, setToken } = useAuth();
   const [confirmationVisible, setConfirmationVisible] = useState(false);
 
-  const {} = useAuth();
-
   // Si no está autenticado, redirigir a la página de inicio de sesión
   if (!isAuthenticated) {
     return <Navigate to="/licenses/login" />;

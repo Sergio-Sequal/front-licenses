@@ -4,9 +4,7 @@ import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
 import axiosInstance from "../services/axiosInstance";
 import { Button } from "primereact/button";
-//import RenewModal from "./RenewModal";
 import { ToggleButton } from "primereact/togglebutton";
-//importar ruta servidor
 import { useAuth } from "./AuthContext";
 import { toast } from "react-toastify";
 import ModalFormAdmin from "./ModalFormAdmin";
@@ -32,14 +30,6 @@ interface AdminDetails {
   createdAt: "";
   updatedAt: "";
 }
-// interface LicensesRenueDate {
-//   _id: '',
-//   id: '',
-//   initialDate: '',
-//   expirationDate: '',
-//   purchaseDate: '',
-
-// }
 
 interface adminStatusChange {
   id: "";
@@ -55,15 +45,12 @@ const TableAdmin = (): JSX.Element => {
   const [globalFilter, setGlobalFilter] = useState("");
 
   const [selectedAdmin, setSelectedAdmin] = useState<Admin | null>(null);
-  // const [selectedLicenseRenuew, setSelectedLicenseRenuew] = useState<LicensesRenueDate | null>(null);
 
   const [selectedAdminDetails, setSelectedAdminDetails] =
     useState<AdminDetails | null>(null);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [modalDetailVisible, setModalDetailVisible] = useState(false);
-
-  // Nueva función y plantilla para el botón de renovar
 
   //editar
   const editTemplate = (rowData: Admin) => (
@@ -188,12 +175,6 @@ const TableAdmin = (): JSX.Element => {
         paginator
         rows={6}
         tableStyle={{ borderRadius: "1rem" }}
-        // rowsPerPageOptions={[20]}
-        // tableStyle={{
-        //   minWidth: "40rem",
-        //   maxHeight: "400px",
-        //   overflowY: "auto",
-        // }}
         globalFilter={globalFilter}
         header={header}
         editMode="row"
