@@ -188,12 +188,6 @@ const TableAdmin = (): JSX.Element => {
         paginator
         rows={6}
         tableStyle={{ borderRadius: "1rem" }}
-        // rowsPerPageOptions={[20]}
-        // tableStyle={{
-        //   minWidth: "40rem",
-        //   maxHeight: "400px",
-        //   overflowY: "auto",
-        // }}
         globalFilter={globalFilter}
         header={header}
         editMode="row"

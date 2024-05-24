@@ -13,6 +13,7 @@ interface Licenses {
   purchaseDate: "";
   usersNumber: "";
   licenseType: "";
+  isMultipleUser: boolean;
   _id: "";
   id: "";
   organizationCustomer: "";
@@ -318,6 +319,19 @@ const FormLicense: React.FC<FormLicenseProps> = ({ onHide, selectedLicense }) =>
           {formData.licenseType === "" && (
             <small className="text-red-500">This field is required</small>
           )}
+        </label>
+      </div>
+      <div className="w-full  mb-4  px-2">
+        <label className="block mb-2">
+          Is a multple user:
+          <input
+            type="text"
+            placeholder="Organización del Cliente"
+            name="organizationCustomer"
+            value={formData.organizationCustomer}
+            onChange={handleInputChange}
+            className={`form-input border-2 border-blue-500 focus:outline-none focus:border-blue-700 px-4 py-2 rounded-md w-full`}
+          />
         </label>
       </div>
       <div className="w-full flex justify-center px-2">

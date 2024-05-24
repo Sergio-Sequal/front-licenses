@@ -18,8 +18,8 @@ const LoginPage: React.FC = () => {
 
     try {
       const response = await axios.post(
-        `https://api-licences-java.onrender.com/admins/auth`,
-        // `http://localhost:8080/admins/auth`,
+        //`https://api-licences-java.onrender.com/admins/auth`,
+        `http://localhost:8080/admins/auth`,
         {
           adminMail: adminMail,
           password: password,

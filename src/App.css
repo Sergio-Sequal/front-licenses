@@ -11,7 +11,7 @@ html {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin: 0 20% 0 20%; /* Ajusta el margen según sea necesario */
+    margin: 5% 10% 0 10%; 
   }
   
   .container_detail_principal_header {
@@ -22,7 +22,7 @@ html {
   }
   
   .container_detail_principal_header_title {
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 600;
     color: #000;
   }

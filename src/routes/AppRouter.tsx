@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import LoginPage from "../components/Login";
 import Admin from "../pages/Admin";
+import SbotInstallation from "../pages/SbotInstallation";
 
 const AppRouter = (): JSX.Element => {
 
@@ -26,6 +27,7 @@ const AppRouter = (): JSX.Element => {
         <Route path="/licenses/login" element={<LoginPage />} />
         <Route path="/licenses/home" element={<Layout />} />
         <Route path="/licenses/admins" element={<Admin />} />
+        <Route path="/licenses/sbot-installation" element={<SbotInstallation />} />
       </Routes>
     </Router>
   );

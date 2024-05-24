@@ -3,13 +3,16 @@ import {
   faIdCard,
   faGauge,
   faSignOutAlt,
-  faUsers
+  faUsers,
+  faCloudArrowDown
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import { Button } from "primereact/button";
 import { ConfirmDialog } from "primereact/confirmdialog";
+
+
 
 const NavBar = (): JSX.Element => {
   const { isAuthenticated, setAuthentication, setToken } = useAuth();
@@ -70,6 +73,10 @@ const NavBar = (): JSX.Element => {
         <Link className="py-4 pl-4 text-white hover:bg-blue-800" to={"/licenses/admins"}>
           <FontAwesomeIcon icon={faUsers} className="text-xl mr-2" />
           Admins
+        </Link>
+        <Link className="py-4 pl-4 text-white hover:bg-blue-800" to={"/licenses/sbot-installation"}>
+          <FontAwesomeIcon icon={faCloudArrowDown} className="text-xl mr-2" />
+          SBOT Installation
         </Link>
         <a href="#" className="py-4 pl-4 text-white hover:bg-blue-800" onClick={handleLogout}>
           <FontAwesomeIcon icon={faSignOutAlt} className="text-xl mr-2" />
